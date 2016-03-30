@@ -13,7 +13,11 @@ socket.connect({
   socket.on('data', function(data) {
     user = JSON.parse(data);
     console.log('Data received (by client): ' + data);
-    //console.log('Age of ' + user.name + ' is ' + user.age);
-	console.log(user[3]);
+    socket.write(JSON.stringify({
+        result: user.task.map(function(item) {
+          return item * 2;
+        })
+      })
+    );    
   });
 });
