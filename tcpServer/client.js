@@ -3,7 +3,7 @@ global.api = api;
 api.net = require('net');
 
 var socket = new api.net.Socket();
-var user;
+var task;
 
 socket.connect({
   port: 2000,
@@ -11,10 +11,11 @@ socket.connect({
 }, function() {
   socket.write('Hello from client');
   socket.on('data', function(data) {
-    user = JSON.parse(data);
+    task = JSON.parse(data);
     console.log('Data received (by client): ' + data);
-    socket.write(JSON.stringify({
-        result: user.task.map(function(item) {
+    socket.end(JSON.stringify({
+        id: task.id,
+        result: task.task.map(function(item) {
           return item * 2;
         })
       })
